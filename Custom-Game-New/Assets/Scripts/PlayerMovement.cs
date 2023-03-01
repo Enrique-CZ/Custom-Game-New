@@ -4,44 +4,48 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement")]
-    public float moveSpeed;
 
-    public Transform orientation;
 
-     float horizontalInput;
-     float verticalInput;
+    public float Speed;
+    float mouseX;
+    float mouseY;
 
-    private Vector3 moveDirection;
+    public float mouseSensitivity = 100f;
+    public Transform player;
 
-    Rigidbody rb;
+    float xRotation;
+    float yRotation;
 
-    private void Start()
+   
+    void Update()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
-    }
-    
-    private void Update()
-    {
-        MyInput();
+
+        mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
+        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        player.Rotate(Vector3.up * mouseY);
+
         
-    }
-    private void MyInput()
-    {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
-    }
-    private void FixedUptate()
-    {
-        MovePlayer();
-    }
-
-
-    private void MovePlayer()
-    {
-        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-        rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+        if(Input.GetKey(KeyCode.W))
+        {
+            transform.Translate(Vector3.forward * Speed * Time.deltaTime);
+        }
+      if(Input.GetKey(KeyCode.A))
+        {
+            transform.Translate(Vector3.left * Speed * Time.deltaTime);
+        }
+      if(Input.GetKey(KeyCode.D))
+        {
+            transform.Translate(Vector3.right * Speed * Time.deltaTime);
+        }
+      if (Input.GetKey(KeyCode.S))
+       {
+            transform.Translate(Vector3.back * Speed * Time.deltaTime);
+       }
 
     }
 }
