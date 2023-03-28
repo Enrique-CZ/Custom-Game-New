@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Hint 1
   - Hint Image
+  - FinishLevelDoor
+  - RockKey
+  - StickKey
   layers:
   - Default
   - TransparentFX
